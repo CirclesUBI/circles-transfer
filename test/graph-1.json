@@ -1,0 +1,52 @@
+{
+  "nodes": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "edges": [
+    {
+      "from": "A",
+      "to": "B",
+      "capacity": 4,
+      "token": "A"
+    },
+    {
+      "from": "A",
+      "to": "C",
+      "capacity": 7,
+      "token": "C"
+    },
+    {
+      "from": "A",
+      "to": "C",
+      "capacity": 5,
+      "token": "A"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "capacity": 3,
+      "token": "D"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "capacity": 3.8,
+      "token": "C"
+    },
+    {
+      "from": "B",
+      "to": "D",
+      "capacity": 4,
+      "token": "B"
+    },
+    {
+      "from": "B",
+      "to": "D",
+      "capacity": 6,
+      "token": "D"
+    }
+  ]
+}

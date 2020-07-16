@@ -1,0 +1,31 @@
+{
+  "name": "circles-transfer",
+  "version": "0.1.0",
+  "description": "Calculate maximum flow and transitive transfers steps in a trust graph",
+  "main": "lib/index.js",
+  "contributors": [
+    "adzialocha"
+  ],
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CirclesUBI/circles-transfer.git"
+  },
+  "scripts": {
+    "build": "npm run clear && rollup src/index.js -o lib/index.js -f cjs",
+    "clear": "rimraf ./lib",
+    "lint": "eslint --ignore-path .gitignore --ignore-pattern ./lib .",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.21.0"
+  },
+  "dependencies": {}
+}
