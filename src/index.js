@@ -1,38 +1,7 @@
 import { FlowNetwork, FlowEdge, MaxFlow } from './maxFlow';
+import { validateType, validateTypes, validateNode } from './validate';
 
 const MAX_CAPACITY = Number.MAX_SAFE_INTEGER;
-
-function validateType(obj, type, key) {
-  if (
-    obj === null ||
-    typeof obj === 'undefined' ||
-    (typeof obj === 'string' && obj.length === 0)
-  ) {
-    throw new Error(`"${key}" is missing`);
-  }
-
-  if (type === 'array') {
-    if (!Array.isArray(obj)) {
-      throw new Error(`"${key}" has to be of type "array"`);
-    }
-  } else {
-    if (typeof obj !== type) {
-      throw new Error(`"${key}" has to be of type "${type}"`);
-    }
-  }
-}
-
-function validateTypes(obj, types) {
-  Object.keys(types).forEach((key) => {
-    validateType(obj[key], types[key], key);
-  });
-}
-
-function validateNode(nodes, node) {
-  if (!nodes.includes(node)) {
-    throw new Error(`Graph does not contain "${node}" node`);
-  }
-}
 
 function addTokenEdges({ nodes, edges }) {
   return nodes.reduce(
