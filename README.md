@@ -27,7 +27,54 @@ npm i @circles/transfer
 ## Usage
 
 ```js
-// @TODO
+import getTransitiveTransfer from '@circles/transfer';
+
+// Define a weighted trust graph between trusted tokens
+const nodes = [
+  'A',
+  'B',
+  'C',
+  'D',
+];
+
+const edges = [
+  {
+    from: 'A',
+    to: 'B',
+    token: 'A',
+    capacity: 10,
+  },
+  {
+    from: 'B',
+    to: 'C',
+    token: 'B',
+    capacity: 7,
+  },
+  {
+    from: 'B',
+    to: 'C',
+    token: 'C',
+    capacity: 5,
+  },
+  ...
+];
+
+// Find transfer steps to send a token value between two nodes:
+const result = getTransitiveTransfer({
+  nodes,
+  edges,
+  from: 'A',
+  to: 'D',
+  value: 5,
+});
+
+// ... we also get the maximum possible value
+console.log(`Can send max. ${result.maxFlowValue} between A and D`);
+
+// ... and finally the transfer steps
+result.transferSteps(({ step, from, to, value, token }) => {
+  console.log(`${step}.: Send ${value} of ${token} from ${from} to ${to}`);
+});
 ```
 
 ## Development
