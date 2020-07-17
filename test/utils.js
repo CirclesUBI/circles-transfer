@@ -7,7 +7,7 @@ export function expectSuccessfulTransfer({
   nodes,
   to,
   transferSteps,
-  value,
+  transferValue,
 }) {
   const transferDebugSteps = [];
 
@@ -15,7 +15,7 @@ export function expectSuccessfulTransfer({
   const toIndex = nodes.indexOf(to);
 
   const balances = nodes.map(() => 0);
-  balances[fromIndex] = value;
+  balances[fromIndex] = transferValue;
 
   transferSteps.forEach((transaction) => {
     const stepFromIndex = nodes.indexOf(transaction.from);
@@ -53,7 +53,7 @@ export function expectSuccessfulTransfer({
       throw new Error('Error: Source balance is not zero');
     }
 
-    if (balances[toIndex] !== value) {
+    if (balances[toIndex] !== transferValue) {
       throw new Error('Error: Target balance is wrong');
     }
   }

@@ -9,7 +9,7 @@
     {
       "from": "A",
       "to": "B",
-      "capacity": 4,
+      "capacity": 5,
       "token": "A"
     },
     {

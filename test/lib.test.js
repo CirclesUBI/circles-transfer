@@ -13,9 +13,10 @@ const testVectorsSuccess = [
       to: 'D',
       value: 10,
     },
-    results: {
-      maxFlowValue: 10.8,
-      stepsCount: 5,
+    expected: {
+      maxFlowValue: 11.8,
+      transferStepsCount: 5,
+      transferValue: 10,
     },
   },
   {
@@ -28,9 +29,10 @@ const testVectorsSuccess = [
       to: 'D',
       value: 10,
     },
-    results: {
+    expected: {
       maxFlowValue: 0,
-      stepsCount: 0,
+      transferStepsCount: 0,
+      transferValue: 0,
     },
   },
   {
@@ -40,9 +42,10 @@ const testVectorsSuccess = [
       to: 'D',
       value: 100,
     },
-    results: {
-      maxFlowValue: 10.8,
-      stepsCount: 0,
+    expected: {
+      maxFlowValue: 11.8,
+      transferStepsCount: 0,
+      transferValue: 0,
     },
   },
   {
@@ -52,9 +55,10 @@ const testVectorsSuccess = [
       to: '13',
       value: 50,
     },
-    results: {
+    expected: {
       maxFlowValue: 75,
-      stepsCount: 6,
+      transferStepsCount: 6,
+      transferValue: 50,
     },
   },
   {
@@ -64,9 +68,10 @@ const testVectorsSuccess = [
       to: '44',
       value: 80,
     },
-    results: {
+    expected: {
       maxFlowValue: 100,
-      stepsCount: 14,
+      transferStepsCount: 14,
+      transferValue: 80,
     },
   },
 ];
@@ -79,7 +84,7 @@ const testVectorsFail = [
       to: 'E',
       value: 10,
     },
-    results: {
+    expected: {
       error: 'Graph does not contain "E" node',
     },
   },
@@ -90,7 +95,7 @@ const testVectorsFail = [
       to: 'D',
       value: 10,
     },
-    results: {
+    expected: {
       error: 'Graph does not contain "Z" node',
     },
   },
@@ -101,7 +106,7 @@ const testVectorsFail = [
       to: 'D',
       value: -1,
     },
-    results: {
+    expected: {
       error: '"value" has to be positive value (>0)',
     },
   },
@@ -111,7 +116,7 @@ const testVectorsFail = [
       to: 'A',
       value: 5,
     },
-    results: {
+    expected: {
       error: '"from" is missing',
     },
   },
@@ -125,7 +130,7 @@ const testVectorsFail = [
       to: 'B',
       value: 1,
     },
-    results: {
+    expected: {
       error: 'Graph is empty',
     },
   },
@@ -146,7 +151,7 @@ const testVectorsFail = [
       to: 'B',
       value: 1,
     },
-    results: {
+    expected: {
       error: 'Graph does not contain "C" node',
     },
   },
@@ -167,7 +172,7 @@ const testVectorsFail = [
       to: 'B',
       value: 1,
     },
-    results: {
+    expected: {
       error: '"capacity" has to be positive value or zero (>=0)',
     },
   },
@@ -176,33 +181,32 @@ const testVectorsFail = [
 const testVectors = [...testVectorsSuccess, ...testVectorsFail];
 
 describe('getTransitiveTransfer', () => {
-  it('should return valid transfer steps', () => {
+  it('should run test vectors successfully', () => {
     testVectors.forEach((vector) => {
-      const { nodes, edges } = vector.graph;
       let result;
 
-      const test = expect(() => {
+      const test = () => {
         result = getTransitiveTransfer({
-          nodes,
-          edges,
+          ...vector.graph,
           ...vector.transaction,
         });
-      });
+      };
 
-      if (vector.results.error) {
-        test.toThrow(new Error(vector.results.error));
+      if (vector.expected.error) {
+        expect(test).toThrow(new Error(vector.expected.error));
       } else {
-        test.not.toThrow();
+        expect(test).not.toThrow();
 
-        expect(result.from).toBe(vector.transaction.from);
-        expect(result.to).toBe(vector.transaction.to);
-        expect(result.value).toBe(vector.transaction.value);
-        expect(result.transferSteps.length).toBe(vector.results.stepsCount);
-        expect(result.maxFlowValue).toBe(vector.results.maxFlowValue);
+        const { expected, transaction } = vector;
+        expect(result.from).toBe(transaction.from);
+        expect(result.to).toBe(transaction.to);
+        expect(result.transferValue).toBe(expected.transferValue);
+        expect(result.transferSteps.length).toBe(expected.transferStepsCount);
+        expect(result.maxFlowValue).toBe(expected.maxFlowValue);
 
         expectSuccessfulTransfer({
           ...result,
-          nodes,
+          ...vector.graph,
         });
       }
     });

@@ -1,4 +1,4 @@
-import { FlowNetwork, FlowEdge, MaxFlow } from './maxFlow';
+import { FlowNetwork, FlowEdge, findMaxFlow } from './flow';
 import { validateType, validateTypes, validateNode } from './validate';
 
 const MAX_CAPACITY = Number.MAX_SAFE_INTEGER;
@@ -52,77 +52,76 @@ function addTokenEdges({ nodes, edges }) {
   );
 }
 
-function removeTokenEdges({ graph }) {
-  const markedEdges = [];
-  const nodesCleaned = [];
-
-  const edgesCleaned = graph.adjList.reduce((acc, adj) => {
-    adj.forEach((edge) => {
-      if (!edge.originalFrom) {
-        return;
-      }
-
-      const edgeKey = `${edge.originalFrom}${edge.originalTo}${edge.token}`;
-
-      if (edge.flow > 0 && !markedEdges.includes(edgeKey)) {
-        if (!nodesCleaned.includes(edge.originalTo)) {
-          nodesCleaned.push(edge.originalTo);
-        }
-
-        if (!nodesCleaned.includes(edge.originalFrom)) {
-          nodesCleaned.push(edge.originalFrom);
-        }
-
-        if (!nodesCleaned.includes(edge.token)) {
-          nodesCleaned.push(edge.token);
-        }
-
-        markedEdges.push(edgeKey);
-
-        acc.push({
-          capacity: edge.capacity,
-          flow: edge.flow,
-          from: edge.originalFrom,
-          to: edge.originalTo,
-          token: edge.token,
-        });
-      }
-    });
-
-    return acc;
-  }, []);
-
-  return {
-    nodes: nodesCleaned,
-    edges: edgesCleaned,
-  };
-}
-
-function calculateMaxFlow({ nodes, edges, source, sink }) {
-  const graph = new FlowNetwork(nodes.length);
+function getFlowNetwork({ nodes, edges }) {
+  const network = new FlowNetwork(nodes.length);
 
   edges.forEach((edge) => {
     const indexFrom = nodes.indexOf(edge.from);
     const indexTo = nodes.indexOf(edge.to);
 
-    const flowEdge = new FlowEdge(indexFrom, indexTo, edge.capacity);
+    const flowEdge = new FlowEdge({
+      indexFrom,
+      indexTo,
+      capacity: edge.capacity,
+    });
 
-    // Keep meta informations
-    flowEdge.token = edge.token;
-    flowEdge.originalFrom = edge.originalFrom;
-    flowEdge.originalTo = edge.originalTo;
+    if (edge.originalTo) {
+      // We need this meta information kept here for later clean up and removal
+      // of the extra token edges.
+      flowEdge._originalTo = edge.originalTo;
+      flowEdge._originalFrom = edge.originalFrom;
+      flowEdge._token = edge.token;
+    }
 
-    graph.addEdge(flowEdge);
+    network.addEdge(flowEdge);
   });
 
-  const sourceIndex = nodes.indexOf(source);
-  const targetIndex = nodes.indexOf(sink);
+  return network;
+}
 
-  const { value } = new MaxFlow(graph, sourceIndex, targetIndex);
+function removeTokenEdges({ network }) {
+  const markedEdges = [];
+  const nodesCleaned = [];
+
+  const edgesCleaned = network
+    .getAllEdges()
+    .reduce((acc, { _originalFrom, _originalTo, _token, flow, capacity }) => {
+      if (!_originalFrom) {
+        return acc;
+      }
+
+      const edgeKey = [_originalFrom, _originalTo, _token].join('');
+
+      if (flow > 0 && !markedEdges.includes(edgeKey)) {
+        if (!nodesCleaned.includes(_originalTo)) {
+          nodesCleaned.push(_originalTo);
+        }
+
+        if (!nodesCleaned.includes(_originalFrom)) {
+          nodesCleaned.push(_originalFrom);
+        }
+
+        if (!nodesCleaned.includes(_token)) {
+          nodesCleaned.push(_token);
+        }
+
+        markedEdges.push(edgeKey);
+
+        acc.push({
+          capacity,
+          flow,
+          from: _originalFrom,
+          to: _originalTo,
+          token: _token,
+        });
+      }
+
+      return acc;
+    }, []);
 
   return {
-    graph,
-    maxFlowValue: value,
+    nodes: nodesCleaned,
+    edges: edgesCleaned,
   };
 }
 
@@ -228,11 +227,11 @@ export default function getTransitiveTransfer({
   }
 
   nodes.forEach((node) => {
-    validateType(node, 'string');
+    validateType(node, 'string', 'node');
   });
 
   edges.forEach((edge) => {
-    validateType(edge, 'object');
+    validateType(edge, 'object', 'edge');
 
     validateTypes(edge, {
       capacity: 'number',
@@ -257,30 +256,38 @@ export default function getTransitiveTransfer({
     throw new Error('"value" has to be positive value (>0)');
   }
 
-  const extended = addTokenEdges({ nodes, edges });
+  // 1.
+  const extendedGraph = addTokenEdges({ nodes, edges });
 
-  const { graph, maxFlowValue } = calculateMaxFlow({
-    nodes: extended.nodes,
-    edges: extended.edges,
-    source: from,
-    sink: to,
+  // 2.
+  const network = getFlowNetwork({
+    nodes: extendedGraph.nodes,
+    edges: extendedGraph.edges,
   });
 
-  const cleaned = removeTokenEdges({ graph });
+  // 3.
+  const indexSource = extendedGraph.nodes.indexOf(from);
+  const indexSink = extendedGraph.nodes.indexOf(to);
+  const maxFlowValue = findMaxFlow({ network, indexSource, indexSink });
 
-  const transferSteps =
-    maxFlowValue >= value
-      ? calculateTransferSteps({
-          edges: cleaned.edges,
-          to,
-          value,
-        })
-      : [];
+  // 4.
+  const cleanedGraph = removeTokenEdges({ network });
+
+  // 5.
+  const isTransferPossible = maxFlowValue >= value;
+  const transferValue = isTransferPossible ? value : 0;
+  const transferSteps = isTransferPossible
+    ? calculateTransferSteps({
+        edges: cleanedGraph.edges,
+        to,
+        value,
+      })
+    : [];
 
   return {
     from,
     to,
-    value,
+    transferValue,
     transferSteps,
     maxFlowValue,
   };
