@@ -27,7 +27,7 @@ npm i @circles/transfer
 ## Usage
 
 ```js
-import getTransitiveTransfer from '@circles/transfer';
+import findTransitiveTransfer from '@circles/transfer';
 
 // Define a weighted trust graph between trusted tokens
 const nodes = [
@@ -60,7 +60,7 @@ const edges = [
 ];
 
 // Find transfer steps to send a token value between two nodes:
-const { transferSteps, maxFlowValue } = getTransitiveTransfer({
+const { transferSteps, maxFlowValue } = findTransitiveTransfer({
   nodes,
   edges,
   from: 'A',

@@ -125,7 +125,7 @@ function removeTokenEdges({ network }) {
   };
 }
 
-function calculateTransferSteps({ edges, to, value }) {
+function findTransferSteps({ edges, to, value }) {
   function nextSteps(startNode, value) {
     const nextStepsInner = (node, flowRequired, path = []) => {
       // Filter out unneeded edges and sort them by flow
@@ -198,7 +198,7 @@ function calculateTransferSteps({ edges, to, value }) {
   return nextSteps(to, value);
 }
 
-export default function getTransitiveTransfer({
+export default function findTransitiveTransfer({
   nodes,
   edges,
   from,
@@ -277,7 +277,7 @@ export default function getTransitiveTransfer({
   const isTransferPossible = maxFlowValue >= value;
   const transferValue = isTransferPossible ? value : 0;
   const transferSteps = isTransferPossible
-    ? calculateTransferSteps({
+    ? findTransferSteps({
         edges: cleanedGraph.edges,
         to,
         value,
@@ -287,8 +287,8 @@ export default function getTransitiveTransfer({
   return {
     from,
     to,
-    transferValue,
-    transferSteps,
     maxFlowValue,
+    transferSteps,
+    transferValue,
   };
 }

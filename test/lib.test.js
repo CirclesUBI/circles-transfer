@@ -1,4 +1,4 @@
-import getTransitiveTransfer from '../src';
+import findTransitiveTransfer from '../src';
 
 import graph1 from './graph-1.json';
 import graph2 from './graph-2.json';
@@ -180,13 +180,13 @@ const testVectorsFail = [
 
 const testVectors = [...testVectorsSuccess, ...testVectorsFail];
 
-describe('getTransitiveTransfer', () => {
+describe('findTransitiveTransfer', () => {
   it('should run test vectors successfully', () => {
     testVectors.forEach((vector) => {
       let result;
 
       const test = () => {
-        result = getTransitiveTransfer({
+        result = findTransitiveTransfer({
           ...vector.graph,
           ...vector.transaction,
         });
