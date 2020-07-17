@@ -60,7 +60,7 @@ const edges = [
 ];
 
 // Find transfer steps to send a token value between two nodes:
-const result = getTransitiveTransfer({
+const { transferSteps, maxFlowValue } = getTransitiveTransfer({
   nodes,
   edges,
   from: 'A',
@@ -69,10 +69,10 @@ const result = getTransitiveTransfer({
 });
 
 // ... we also get the maximum possible value
-console.log(`Can send max. ${result.maxFlowValue} between A and D`);
+console.log(`Can send max. ${maxFlowValue} between A and D`);
 
 // ... and finally the transfer steps
-result.transferSteps(({ step, from, to, value, token }) => {
+transferSteps.forEach(({ step, from, to, value, token }) => {
   console.log(`${step}.: Send ${value} of ${token} from ${from} to ${to}`);
 });
 ```
