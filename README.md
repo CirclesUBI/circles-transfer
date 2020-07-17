@@ -12,7 +12,7 @@
   </a>
 </p>
 
-Utility module for [Circles](https://joincircles.net) to calculate the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and the necessary transitive transfers steps in a trust graph with multiple tokens.
+Utility module for [Circles](https://joincircles.net) to find the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and necessary transitive transfers steps in a trust graph with multiple tokens.
 
 ## Requirements
 
@@ -29,7 +29,9 @@ npm i @circles/transfer
 ```js
 import findTransitiveTransfer from '@circles/transfer';
 
-// Define a weighted trust graph between trusted tokens
+// Define a weighted trust graph between trusted tokens. Each edge describes
+// how much ("capacity") of what token ("token") can be sent from which node
+// ("from") to which ("to"):
 const nodes = [
   'A',
   'B',
@@ -59,7 +61,7 @@ const edges = [
   ...
 ];
 
-// Find transfer steps to send a token value between two nodes:
+// Find required transfer steps to send transfer transitively between two nodes:
 const { transferSteps, maxFlowValue } = findTransitiveTransfer({
   nodes,
   edges,
@@ -68,10 +70,10 @@ const { transferSteps, maxFlowValue } = findTransitiveTransfer({
   value: 5,
 });
 
-// ... we also get the maximum possible value
+// ... we get the maximum possible value:
 console.log(`Can send max. ${maxFlowValue} between A and D`);
 
-// ... and finally the transfer steps
+// ... and finally the transfer steps:
 transferSteps.forEach(({ step, from, to, value, token }) => {
   console.log(`${step}.: Send ${value} of ${token} from ${from} to ${to}`);
 });
