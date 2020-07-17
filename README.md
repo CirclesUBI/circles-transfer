@@ -12,7 +12,7 @@
   </a>
 </p>
 
-Utility module for [Circles](https://joincircles.net) to calculate maximum flow and the necessary transitive transfers steps in a trust graph with multiple tokens.
+Utility module for [Circles](https://joincircles.net) to calculate the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and the necessary transitive transfers steps in a trust graph with multiple tokens.
 
 ## Requirements
 
