@@ -61,7 +61,7 @@ const edges = [
   ...
 ];
 
-// Find required transfer steps to send transfer transitively between two nodes:
+// Find required transfer steps to send tokens transitively between two nodes:
 const { transferSteps, maxFlowValue } = findTransitiveTransfer({
   nodes,
   edges,
