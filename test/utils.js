@@ -5,6 +5,7 @@ function pad(str, len = 6) {
 export function expectSuccessfulTransfer({
   from,
   nodes,
+  edges,
   to,
   transferSteps,
   transferValue,
@@ -22,19 +23,31 @@ export function expectSuccessfulTransfer({
     const stepToIndex = nodes.indexOf(transaction.to);
 
     if (stepFromIndex < 0) {
-      throw new Error('from node does not exist');
+      throw new Error('"from" node does not exist');
     }
 
     if (stepToIndex < 0) {
-      throw new Error('to node does not exist');
+      throw new Error('"to" node does not exist');
     }
 
     if (transaction.value <= 0) {
-      throw new Error('transaction value is invalid');
+      throw new Error('Transaction value is invalid');
     }
 
     balances[stepFromIndex] -= transaction.value;
     balances[stepToIndex] += transaction.value;
+
+    const { capacity } = edges.find((edge) => {
+      return (
+        edge.from === transaction.from &&
+        edge.to === transaction.to &&
+        edge.token === transaction.token
+      );
+    });
+
+    if (capacity < transaction.value) {
+      throw new Error('Transaction value is larger than edge capacity');
+    }
 
     transferDebugSteps.push(
       [
@@ -50,17 +63,17 @@ export function expectSuccessfulTransfer({
 
   if (transferSteps.length > 0) {
     if (balances[fromIndex] !== 0) {
-      throw new Error('Error: Source balance is not zero');
+      throw new Error('Source balance is not zero');
     }
 
     if (balances[toIndex] !== transferValue) {
-      throw new Error('Error: Target balance is wrong');
+      throw new Error('Target balance is wrong');
     }
   }
 
   balances.forEach((balance) => {
     if (balance < 0) {
-      throw new Error('Error: Balances can not lower than zero');
+      throw new Error('Balances can not lower than zero');
     }
   });
 
