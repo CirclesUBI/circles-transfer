@@ -8,35 +8,42 @@ function addTokenEdges({ nodes, edges }) {
     (acc, node) => {
       acc.nodes.push(node);
 
-      // Extend edges per node to add knowledge about multiple tokens to graph
+      // Extend edges per node to add knowledge about multiple tokens to graph.
+      // We add new edges per sender, receiver and token as they all have
+      // individual capacities (defined by either the trust limit or the actual
+      // token balance).
       edges.forEach(({ from, to, token, capacity }) => {
-        const newNode = `${node}*${token}`;
+        const newNode = `${from}-${to}*${token}`;
         const newNodeExt = `${newNode}'`;
 
         if (from === node) {
-          if (!acc.nodes.includes(newNode)) {
-            acc.nodes.push(newNode);
-            acc.nodes.push(newNodeExt);
-
-            // [N] --Infinite--> [N*Token]
-            acc.edges.push({
-              from: node,
-              to: newNode,
-              capacity: MAX_CAPACITY,
-              token,
-            });
-
-            // [N*Token] --Value--> [N*Token']
-            // This "middle" node holds the actual token value this node holds
-            acc.edges.push({
-              from: newNode,
-              to: newNodeExt,
-              capacity,
-              token,
-            });
+          if (acc.nodes.includes(newNode)) {
+            throw new Error(`Duplicate ${from} and ${to} (token=${token})`);
           }
 
-          // [N*Token'] --Infinite--> ... (to)
+          acc.nodes.push(newNode);
+          acc.nodes.push(newNodeExt);
+
+          // [N] --Infinite--> [N-M*Token]
+          acc.edges.push({
+            from: node,
+            to: newNode,
+            capacity: MAX_CAPACITY,
+            token,
+          });
+
+          // [N-M*Token] --Value--> [N-M*Token']
+          // This "middle" node holds the actual max value [min(capacity
+          // defined by trust limit, token balance)] N can transact with
+          // M with this Token
+          acc.edges.push({
+            from: newNode,
+            to: newNodeExt,
+            capacity,
+            token,
+          });
+
+          // [N-M*Token'] --Infinite--> [M]
           acc.edges.push({
             originalFrom: from,
             originalTo: to,
@@ -170,24 +177,26 @@ function findTransferSteps({ edges, to, value }) {
     };
 
     const steps = {};
-    nextStepsInner(startNode, value).forEach((transaction, step) => {
-      // It can happen that we transact the same token between the same nodes
-      // within multiple steps. To optimize these multiple transfers we
-      // summarize them to only one single transaction.
-      const key = `${transaction.from}${transaction.to}${transaction.token}`;
+    nextStepsInner(startNode, value).forEach(
+      ({ from, to, token, value }, step) => {
+        // It can happen that we transact the same token between the same nodes
+        // within multiple steps. To optimize these multiple transfers we
+        // summarize them to only one single transaction.
+        const key = `${from}${to}${token}`;
 
-      if (!(key in steps)) {
-        steps[key] = {
-          from: transaction.from,
-          to: transaction.to,
-          token: transaction.token,
-          value: 0,
-          step, // keep the order internally so we can sort them correctly
-        };
-      }
+        if (!(key in steps)) {
+          steps[key] = {
+            from,
+            to,
+            token,
+            value: 0,
+            step, // keep the order internally so we can sort them correctly
+          };
+        }
 
-      steps[key].value += transaction.value;
-    });
+        steps[key].value += value;
+      },
+    );
 
     return Object.keys(steps)
       .map((key) => {
