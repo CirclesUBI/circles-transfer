@@ -2,6 +2,8 @@ import findTransitiveTransfer from '../src';
 
 import graph1 from './graph-1.json';
 import graph2 from './graph-2.json';
+import graph3 from './graph-3.json';
+import graph4 from './graph-4.json';
 
 import { expectSuccessfulTransfer } from './utils';
 
@@ -56,7 +58,7 @@ const testVectorsSuccess = [
       value: 50,
     },
     expected: {
-      maxFlowValue: 75,
+      maxFlowValue: 467,
       transferStepsCount: 6,
       transferValue: 50,
     },
@@ -69,9 +71,35 @@ const testVectorsSuccess = [
       value: 80,
     },
     expected: {
-      maxFlowValue: 100,
-      transferStepsCount: 14,
+      maxFlowValue: 182,
+      transferStepsCount: 15,
       transferValue: 80,
+    },
+  },
+  {
+    graph: graph3,
+    transaction: {
+      from: 'A',
+      to: 'B',
+      value: 50,
+    },
+    expected: {
+      maxFlowValue: 52,
+      transferStepsCount: 3,
+      transferValue: 50,
+    },
+  },
+  {
+    graph: graph4,
+    transaction: {
+      from: '11',
+      to: '50',
+      value: 50,
+    },
+    expected: {
+      maxFlowValue: 481,
+      transferStepsCount: 5,
+      transferValue: 50,
     },
   },
 ];
