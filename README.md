@@ -1,14 +1,17 @@
 # Circles Transfer
 
 <p>
+  <a href="https://badge.fury.io/js/%40circles%2Ftransfer">
+    <img src="https://badge.fury.io/js/%40circles%2Ftransfer.svg" alt="npm Version" height="18">
+  </a>
   <a href="https://github.com/CirclesUBI/circles-transfer/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-APGLv3-orange.svg" alt="License">
+    <img src="https://img.shields.io/badge/license-APGLv3-orange.svg" alt="License" height="18">
   </a>
   <a href="https://travis-ci.com/CirclesUBI/circles-transfer">
-    <img src="https://api.travis-ci.com/CirclesUBI/circles-transfer.svg?branch=main" alt="Build Status">
+    <img src="https://api.travis-ci.com/CirclesUBI/circles-transfer.svg?branch=main" alt="Build Status" height="18">
   </a>
   <a href="https://twitter.com/CirclesUBI">
-    <img src="https://img.shields.io/twitter/follow/circlesubi.svg?label=follow+circles" alt="Follow Circles">
+    <img src="https://img.shields.io/twitter/follow/circlesubi.svg?label=follow+circles" alt="Follow Circles" height="18">
   </a>
 </p>
 
