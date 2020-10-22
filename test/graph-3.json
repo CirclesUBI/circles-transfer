@@ -1,46 +1,38 @@
-{
-  "nodes": [
-    "A",
-    "B",
-    "C",
-    "D"
-  ],
-  "edges": [
-    {
-      "from": "A",
-      "to": "B",
-      "capacity": 38,
-      "token": "A"
-    },
-    {
-      "from": "A",
-      "to": "C",
-      "capacity": 10,
-      "token": "A"
-    },
-    {
-      "from": "A",
-      "to": "C",
-      "capacity": 25,
-      "token": "C"
-    },
-    {
-      "from": "A",
-      "to": "B",
-      "capacity": 10,
-      "token": "B"
-    },
-    {
-      "from": "A",
-      "to": "B",
-      "capacity": 1,
-      "token": "C"
-    },
-    {
-      "from": "A",
-      "to": "B",
-      "capacity": 3,
-      "token": "D"
-    }
-  ]
-}
+[
+  {
+    "from": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "to": "0xa0ff2f1b0ab2414e571bcd134781d746c750916b",
+    "token": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "capacity": 38
+  },
+  {
+    "from": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "to": "0xc2f84dc24814999c7395cc0f553f1057ee862a17",
+    "token": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "capacity": 10
+  },
+  {
+    "from": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "to": "0xc2f84dc24814999c7395cc0f553f1057ee862a17",
+    "token": "0xc2f84dc24814999c7395cc0f553f1057ee862a17",
+    "capacity": 25
+  },
+  {
+    "from": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "to": "0xa0ff2f1b0ab2414e571bcd134781d746c750916b",
+    "token": "0xa0ff2f1b0ab2414e571bcd134781d746c750916b",
+    "capacity": 10
+  },
+  {
+    "from": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "to": "0xa0ff2f1b0ab2414e571bcd134781d746c750916b",
+    "token": "0xc2f84dc24814999c7395cc0f553f1057ee862a17",
+    "capacity": 1
+  },
+  {
+    "from": "0x2f764f3b669093dd24648757971070172ca2af33",
+    "to": "0xa0ff2f1b0ab2414e571bcd134781d746c750916b",
+    "token": "0xe39608dde072a2111936f4724ee927a20f597605",
+    "capacity": 3
+  }
+]

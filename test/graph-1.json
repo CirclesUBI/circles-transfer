@@ -1,52 +1,44 @@
-{
-  "nodes": [
-    "A",
-    "B",
-    "C",
-    "D"
-  ],
-  "edges": [
-    {
-      "from": "A",
-      "to": "B",
-      "capacity": 5,
-      "token": "A"
-    },
-    {
-      "from": "A",
-      "to": "C",
-      "capacity": 7,
-      "token": "C"
-    },
-    {
-      "from": "A",
-      "to": "C",
-      "capacity": 5,
-      "token": "A"
-    },
-    {
-      "from": "C",
-      "to": "D",
-      "capacity": 3,
-      "token": "D"
-    },
-    {
-      "from": "C",
-      "to": "D",
-      "capacity": 3.8,
-      "token": "C"
-    },
-    {
-      "from": "B",
-      "to": "D",
-      "capacity": 4,
-      "token": "B"
-    },
-    {
-      "from": "B",
-      "to": "D",
-      "capacity": 6,
-      "token": "D"
-    }
-  ]
-}
+[
+  {
+    "from": "0x5534d2ba89ad1c01c186efafee7105dba071134a",
+    "to": "0x83d878a6123efd548341b468f017af31d96b09b6",
+    "token": "0x5534d2ba89ad1c01c186efafee7105dba071134a",
+    "capacity": 5
+  },
+  {
+    "from": "0x5534d2ba89ad1c01c186efafee7105dba071134a",
+    "to": "0xe08fe38204075884b5dbdcb0ddca0e033f9481a7",
+    "token": "0xe08fe38204075884b5dbdcb0ddca0e033f9481a7",
+    "capacity": 7
+  },
+  {
+    "from": "0x5534d2ba89ad1c01c186efafee7105dba071134a",
+    "to": "0xe08fe38204075884b5dbdcb0ddca0e033f9481a7",
+    "token": "0x5534d2ba89ad1c01c186efafee7105dba071134a",
+    "capacity": 5
+  },
+  {
+    "from": "0xe08fe38204075884b5dbdcb0ddca0e033f9481a7",
+    "to": "0x29003579d2ca6d47c1860c4ed36656542a28f012",
+    "token": "0x29003579d2ca6d47c1860c4ed36656542a28f012",
+    "capacity": 3
+  },
+  {
+    "from": "0xe08fe38204075884b5dbdcb0ddca0e033f9481a7",
+    "to": "0x29003579d2ca6d47c1860c4ed36656542a28f012",
+    "token": "0xe08fe38204075884b5dbdcb0ddca0e033f9481a7",
+    "capacity": 3.8
+  },
+  {
+    "from": "0x83d878a6123efd548341b468f017af31d96b09b6",
+    "to": "0x29003579d2ca6d47c1860c4ed36656542a28f012",
+    "token": "0x83d878a6123efd548341b468f017af31d96b09b6",
+    "capacity": 4
+  },
+  {
+    "from": "0x83d878a6123efd548341b468f017af31d96b09b6",
+    "to": "0x29003579d2ca6d47c1860c4ed36656542a28f012",
+    "token": "0x29003579d2ca6d47c1860c4ed36656542a28f012",
+    "capacity": 6
+  }
+]
