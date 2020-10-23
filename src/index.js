@@ -15,19 +15,20 @@ export default function findTransitiveTransfer(
     {
       from: 'string',
       to: 'string',
-      value: 'number',
+      value: 'string',
     },
   );
 
-  if (value <= 0) {
+  if (value === '0' || value.includes('-')) {
     throw new Error('"value" has to be positive value (>0)');
   }
 
   // Validate configuration
   validateType(configuration, 'object', 'configuration');
   validateTypes(configuration, {
-    pathfinderExecutable: 'string',
     edgesFile: 'string',
+    pathfinderExecutable: 'string',
+    timeout: 'number',
   });
 
   const args = [
@@ -39,7 +40,7 @@ export default function findTransitiveTransfer(
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    exec(args, (error, stdout, stderr) => {
+    exec(args, { timeout: configuration.timeout }, (error, stdout, stderr) => {
       if (error || stderr) {
         reject(new Error(`Process failed with ${args}`));
         return;
@@ -51,7 +52,7 @@ export default function findTransitiveTransfer(
         from,
         to,
         maxFlowValue,
-        transferSteps,
+        transferSteps: maxFlowValue !== value ? [] : transferSteps,
         transferValue: value,
       });
     });
