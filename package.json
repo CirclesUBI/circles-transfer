@@ -12,7 +12,7 @@
     "url": "git://github.com/CirclesUBI/circles-transfer.git"
   },
   "scripts": {
-    "build": "npm run clear && rollup src/index.js -o lib/index.js -f cjs",
+    "build": "npm run clear && rollup src/index.js -o lib/index.js -f cjs --external child_process --exports default",
     "clear": "rimraf ./lib",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern ./lib .",
     "test": "jest",
