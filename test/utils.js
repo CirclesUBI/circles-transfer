@@ -4,19 +4,30 @@ function pad(str, len = 6) {
 
 export function expectSuccessfulTransfer({
   from,
-  nodes,
   edges,
   to,
   transferSteps,
   transferValue,
 }) {
+  const nodes = edges.reduce((acc, edge) => {
+    if (!acc.includes(edge.from)) {
+      acc.push(edge.from);
+    }
+
+    if (!acc.includes(edge.to)) {
+      acc.push(edge.to);
+    }
+
+    return acc;
+  }, []);
+
   const transferDebugSteps = [];
 
   const fromIndex = nodes.indexOf(from);
   const toIndex = nodes.indexOf(to);
 
   const balances = nodes.map(() => 0);
-  balances[fromIndex] = transferValue;
+  balances[fromIndex] = parseFloat(transferValue);
 
   transferSteps.forEach((transaction) => {
     const stepFromIndex = nodes.indexOf(transaction.from);
@@ -34,8 +45,8 @@ export function expectSuccessfulTransfer({
       throw new Error('Transaction value is invalid');
     }
 
-    balances[stepFromIndex] -= transaction.value;
-    balances[stepToIndex] += transaction.value;
+    balances[stepFromIndex] -= parseFloat(transaction.value);
+    balances[stepToIndex] += parseFloat(transaction.value);
 
     const { capacity } = edges.find((edge) => {
       return (
@@ -66,7 +77,7 @@ export function expectSuccessfulTransfer({
       throw new Error('Source balance is not zero');
     }
 
-    if (balances[toIndex] !== transferValue) {
+    if (balances[toIndex] !== parseFloat(transferValue)) {
       throw new Error('Target balance is wrong');
     }
   }

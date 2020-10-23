@@ -17,6 +17,8 @@
 
 Utility module for [Circles](https://joincircles.net) to find the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and necessary transitive transfer steps in a trust graph with multiple tokens.
 
+For performance reasons this module uses the native [pathfinder](https://github.com/chriseth/pathfinder/) process by [chriseth](https://github.com/chriseth) to find the transfer steps.
+
 ## Requirements
 
 - NodeJS
@@ -24,7 +26,11 @@ Utility module for [Circles](https://joincircles.net) to find the [Maximum flow]
 ## Installation
 
 ```
+# Make it a dependency
 npm i @circles/transfer
+
+# Copy the native pathfinder process into your project folder
+cp ./node_modules/@circles/transfer/pathfinder ./pathfinder
 ```
 
 ## Usage
@@ -34,47 +40,46 @@ import findTransitiveTransfer from '@circles/transfer';
 
 // Define a weighted trust graph between trusted tokens. Each edge describes
 // how much ("capacity") of what token ("token") can be sent from which node
-// ("from") to which ("to"):
-const nodes = [
-  'A',
-  'B',
-  'C',
-  'D',
-];
-
-const edges = [
-  {
-    from: 'A',
-    to: 'B',
-    token: 'A',
-    capacity: 10,
-  },
-  {
-    from: 'B',
-    to: 'C',
-    token: 'B',
-    capacity: 7,
-  },
-  {
-    from: 'B',
-    to: 'C',
-    token: 'C',
-    capacity: 5,
-  },
-  ...
-];
+// ("from") to which ("to").
+//
+// Store this json file somewhere (for example ./graph.json):
+//
+// [
+//  {
+//    from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
+//    to: '0x83d878a6123efd548341b468f017af31d96b09b6',
+//    token: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
+//    capacity: '10'
+//  },
+//  {
+//    from: '0x83d878a6123efd548341b468f017af31d96b09b6',
+//    to: '0xe08fe38204075884b5dbdcb0ddca0e033f9481a7',
+//    token: '0x83d878a6123efd548341b468f017af31d96b09b6',
+//    capacity: '7'
+//  },
+//  {
+//    from: '0x83d878a6123efd548341b468f017af31d96b09b6',
+//    to: '0xe08fe38204075884b5dbdcb0ddca0e033f9481a7',
+//    token: '0xe08fe38204075884b5dbdcb0ddca0e033f9481a7',
+//    capacity: '5'
+//  },
+//  ...
+// ];
 
 // Find required transfer steps to send tokens transitively between two nodes:
-const { transferSteps, maxFlowValue } = findTransitiveTransfer({
-  nodes,
-  edges,
-  from: 'A',
-  to: 'D',
-  value: 5,
+const { transferSteps, maxFlowValue } = await findTransitiveTransfer({
+  from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
+  to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
+  value: '5',
+}, {
+  edgesFile: './graph.json', // Path to graph file
+  pathfinderExecutable: './pathfinder', // Path to `pathfinder` program
+  timeout: 1000 * 5, // Stop process when it takes longer than x milliseconds
 });
 
-// ... we get the maximum possible value:
-console.log(`Can send max. ${maxFlowValue} between A and D`);
+// ... we get the maximum possible value. If transfer value is smaller it will
+// be the same:
+console.log(`Can send max. ${maxFlowValue}`);
 
 // ... and finally the transfer steps:
 transferSteps.forEach(({ step, from, to, value, token }) => {
@@ -84,7 +89,7 @@ transferSteps.forEach(({ step, from, to, value, token }) => {
 
 ## Development
 
-`circles-transfer` is a JavaScript module written in JavaScript, tested with [Jest](https://jestjs.io/), transpiled with [Babel](https://babeljs.io/) and bundled with [Rollup](https://rollupjs.org).
+`circles-transfer` is a JavaScript module, tested with [Jest](https://jestjs.io/), transpiled with [Babel](https://babeljs.io/) and bundled with [Rollup](https://rollupjs.org).
 
 ```
 // Install dependencies
@@ -99,6 +104,13 @@ npm run lint
 
 // Build it!
 npm run build
+```
+
+`pathfinder` is a C++ program by [chriseth](https://github.com/chriseth/pathfinder) compiled for Linux arm64 in this repository. Compile it for your own platform with the following steps and move the target into your project:
+
+```
+cmake .
+make
 ```
 
 ## License
