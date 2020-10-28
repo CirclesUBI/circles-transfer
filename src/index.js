@@ -1,6 +1,25 @@
 import { exec } from 'child_process';
 import { validateType, validateTypes } from './validate';
 
+// "100000000" > "200" returns false when comparing number strings but with
+// this workaround we're able to compare long numbers as strings:
+export function isPathGiven(a, b) {
+  // Which one is shorter?
+  if (a.length < b.length) {
+    return true;
+  } else if (b.length < a.length) {
+    return false;
+  }
+
+  // It does not matter, its the same string:
+  if (a === b) {
+    return true;
+  }
+
+  // If they have the same length, we can actually do this:
+  return a < b;
+}
+
 export default function findTransitiveTransfer(
   { from, to, value },
   configuration,
@@ -52,7 +71,7 @@ export default function findTransitiveTransfer(
         from,
         to,
         maxFlowValue,
-        transferSteps: maxFlowValue !== value ? [] : transferSteps,
+        transferSteps: isPathGiven(value, maxFlowValue) ? transferSteps : [],
         transferValue: value,
       });
     });
