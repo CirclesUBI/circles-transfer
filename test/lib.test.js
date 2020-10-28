@@ -14,8 +14,8 @@ const testVectorsSuccess = [
   {
     graph: graph1,
     transaction: {
-      from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
-      to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
+      from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
+      to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '11',
     },
     expected: {
@@ -27,8 +27,8 @@ const testVectorsSuccess = [
   {
     graph: graph1,
     transaction: {
-      from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
-      to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
+      from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
+      to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '100',
     },
     expected: {
@@ -40,34 +40,34 @@ const testVectorsSuccess = [
   {
     graph: graph2,
     transaction: {
-      from: '0x12e3db638ff9ac639425f24fad3193cb72b4e7fb',
-      to: '0xa559aa8ed21434ebfa23958bc27d201391929219',
+      from: '0x12e3DB638ff9Ac639425F24fAd3193CB72b4e7fB',
+      to: '0xa559aA8ed21434ebFa23958bC27D201391929219',
       value: '50',
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 6,
+      transferStepsCount: 5,
       transferValue: '50',
     },
   },
   {
     graph: graph2,
     transaction: {
-      from: '0xe4ec3ccfd5cdb641ec13305b6ef3536915a2688d',
-      to: '0xd9e13bb778b1d4dc87053f3912c597c64306a91e',
+      from: '0xe4Ec3cCfD5CdB641EC13305b6EF3536915a2688d',
+      to: '0xd9E13Bb778B1d4DC87053f3912C597c64306a91E',
       value: '80',
     },
     expected: {
       maxFlowValue: '80',
-      transferStepsCount: 16,
+      transferStepsCount: 13,
       transferValue: '80',
     },
   },
   {
     graph: graph3,
     transaction: {
-      from: '0x2f764f3b669093dd24648757971070172ca2af33',
-      to: '0xa0ff2f1b0ab2414e571bcd134781d746c750916b',
+      from: '0x2F764F3B669093dD24648757971070172Ca2af33',
+      to: '0xA0FF2f1b0Ab2414E571bCD134781d746c750916B',
       value: '50',
     },
     expected: {
@@ -79,8 +79,8 @@ const testVectorsSuccess = [
   {
     graph: graph4,
     transaction: {
-      from: '0xd615e7351261d1bd8558742015adffff15a425d7',
-      to: '0x7875dfd647efa680b83e418fc00b3e38b7442bc6',
+      from: '0xd615e7351261d1Bd8558742015AdFFFF15a425D7',
+      to: '0x7875dFd647efA680B83e418Fc00B3E38B7442bc6',
       value: '50',
     },
     expected: {
