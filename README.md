@@ -1,20 +1,57 @@
-# Circles Transfer
+<div align="center">
+	<img width="80" src="https://raw.githubusercontent.com/CirclesUBI/.github/main/assets/logo.svg" />
+</div>
 
-<p>
-  <a href="https://badge.fury.io/js/%40circles%2Ftransfer">
-    <img src="https://badge.fury.io/js/%40circles%2Ftransfer.svg" alt="npm Version" height="18">
+<h1 align="center">circles-transfer</h1>
+
+<div align="center">
+ <strong>
+   Find maximum flow and transitive transfer steps in a trust graph 
+ </strong>
+</div>
+
+<br />
+
+<div align="center">
+  <!-- npm -->
+  <a href="https://www.npmjs.com/package/@circles/transfer">
+    <img src="https://img.shields.io/npm/v/@circles/transfer?style=flat-square&color=%23f14d48" height="18">
   </a>
+  <!-- Licence -->
   <a href="https://github.com/CirclesUBI/circles-transfer/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-APGLv3-orange.svg" alt="License" height="18">
+    <img src="https://img.shields.io/github/license/CirclesUBI/circles-transfer?style=flat-square&color=%23cc1e66" alt="License" height="18">
   </a>
-  <a href="https://travis-ci.com/CirclesUBI/circles-transfer">
-    <img src="https://api.travis-ci.com/CirclesUBI/circles-transfer.svg?branch=main" alt="Build Status" height="18">
+  <!-- CI status -->
+  <a href="https://github.com/CirclesUBI/circles-transfer/actions/workflows/run-tests.yml">
+    <img src="https://img.shields.io/github/workflow/status/CirclesUBI/circles-transfer/Node.js%20CI?label=tests&style=flat-square&color=%2347cccb" alt="CI Status" height="18">
   </a>
+  <!-- Discourse -->
+  <a href="https://aboutcircles.com/">
+    <img src="https://img.shields.io/discourse/topics?server=https%3A%2F%2Faboutcircles.com%2F&style=flat-square&color=%23faad26" alt="chat" height="18"/>
+  </a>
+  <!-- Twitter -->
   <a href="https://twitter.com/CirclesUBI">
-    <img src="https://img.shields.io/twitter/follow/circlesubi.svg?label=follow+circles" alt="Follow Circles" height="18">
+    <img src="https://img.shields.io/twitter/follow/circlesubi.svg?label=twitter&style=flat-square&color=%23f14d48" alt="Follow Circles" height="18">
   </a>
-</p>
+</div>
 
+<div align="center">
+  <h3>
+    <a href="https://handbook.joincircles.net">
+      Handbook
+    </a>
+    <span> | </span>
+    <a href="https://github.com/CirclesUBI/circles-transfer/releases">
+      Releases
+    </a>
+    <span> | </span>
+    <a href="https://github.com/CirclesUBI/.github/blob/main/CONTRIBUTING.md">
+      Contributing
+    </a>
+  </h3>
+</div>
+
+<br/>
 Utility module for [Circles](https://joincircles.net) to find the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and necessary transitive transfer steps in a trust graph with multiple tokens.
 
 For performance reasons this module uses the native [pathfinder](https://github.com/chriseth/pathfinder/) process by [chriseth](https://github.com/chriseth) to find the transfer steps.
@@ -92,17 +129,17 @@ transferSteps.forEach(({ step, from, to, value, token }) => {
 `circles-transfer` is a JavaScript module, tested with [Jest](https://jestjs.io/), transpiled with [Babel](https://babeljs.io/) and bundled with [Rollup](https://rollupjs.org).
 
 ```
-// Install dependencies
+# Install dependencies
 npm install
 
-// Run test suite
+# Run test suite
 npm run test
 npm run test:watch
 
-// Check code formatting
+# Check code formatting
 npm run lint
 
-// Build it!
+# Build it!
 npm run build
 ```
 
