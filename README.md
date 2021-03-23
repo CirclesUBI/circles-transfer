@@ -21,7 +21,7 @@ For performance reasons this module uses the native [pathfinder](https://github.
 
 ## Requirements
 
-- NodeJS
+- Node.js (tested with v12 and v14)
 
 ## Installation
 
@@ -67,15 +67,18 @@ import findTransitiveTransfer from '@circles/transfer';
 // ];
 
 // Find required transfer steps to send tokens transitively between two nodes:
-const { transferSteps, maxFlowValue } = await findTransitiveTransfer({
-  from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
-  to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
-  value: '5',
-}, {
-  edgesFile: './graph.json', // Path to graph file
-  pathfinderExecutable: './pathfinder', // Path to `pathfinder` program
-  timeout: 1000 * 5, // Stop process when it takes longer than x milliseconds
-});
+const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
+  {
+    from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
+    to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
+    value: '5',
+  },
+  {
+    edgesFile: './graph.json', // Path to graph file
+    pathfinderExecutable: './pathfinder', // Path to `pathfinder` program
+    timeout: 1000 * 5, // Stop process when it takes longer than x milliseconds
+  },
+);
 
 // ... we get the maximum possible value. If transfer value is smaller it will
 // be the same:
