@@ -52,6 +52,7 @@
 </div>
 
 <br/>
+
 Utility module for [Circles](https://joincircles.net) to find the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and necessary transitive transfer steps in a trust graph with multiple tokens.
 
 For performance reasons this module uses the native [pathfinder](https://github.com/chriseth/pathfinder/) process by [chriseth](https://github.com/chriseth) to find the transfer steps.
