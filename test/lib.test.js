@@ -5,11 +5,11 @@ import { expectSuccessfulTransfer } from './utils';
 
 const PATHFINDER_EXECUTABLE = './pathfinder';
 
-const graph1 = './test/graph-1.json';
-const graph2 = './test/graph-2.json';
-const graph3 = './test/graph-3.json';
-const graph4 = './test/graph-4.json';
-
+const graph1 = './test/graph-1.csv';
+const graph2 = './test/graph-2.csv';
+const graph3 = './test/graph-3.csv';
+const graph4 = './test/graph-4.csv';
+const FLAG = '--flowcsv';
 const testVectorsSuccess = [
   {
     graph: graph1,
@@ -100,6 +100,7 @@ describe('findTransitiveTransfer', () => {
         return await findTransitiveTransfer(vector.transaction, {
           edgesFile: vector.graph,
           pathfinderExecutable: PATHFINDER_EXECUTABLE,
+          flag: FLAG,
           timeout: 0,
         });
       };
