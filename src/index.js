@@ -47,11 +47,13 @@ export default function findTransitiveTransfer(
   validateTypes(configuration, {
     edgesFile: 'string',
     pathfinderExecutable: 'string',
+    flag: 'string',
     timeout: 'number',
   });
 
   const args = [
     configuration.pathfinderExecutable,
+    configuration.flag,
     from,
     to,
     value,
