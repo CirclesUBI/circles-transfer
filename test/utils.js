@@ -20,12 +20,10 @@ export function expectSuccessfulTransfer({
 
     return acc;
   }, []);
-
   const transferDebugSteps = [];
 
   const fromIndex = nodes.indexOf(from);
   const toIndex = nodes.indexOf(to);
-
   const balances = nodes.map(() => 0);
   balances[fromIndex] = parseFloat(transferValue);
 
@@ -48,17 +46,17 @@ export function expectSuccessfulTransfer({
     balances[stepFromIndex] -= parseFloat(transaction.value);
     balances[stepToIndex] += parseFloat(transaction.value);
 
-    const { capacity } = edges.find((edge) => {
-      return (
+    edges.forEach((edge) => {
+      if (
         edge.from === transaction.from &&
         edge.to === transaction.to &&
         edge.token === transaction.token
-      );
+      ) {
+        if (Number(edge.capacity) < Number(transaction.value)) {
+          throw new Error('Transaction value is larger than edge capacity');
+        }
+      }
     });
-
-    if (capacity < transaction.value) {
-      throw new Error('Transaction value is larger than edge capacity');
-    }
 
     transferDebugSteps.push(
       [
@@ -89,4 +87,18 @@ export function expectSuccessfulTransfer({
   });
 
   return transferDebugSteps.join('\n');
+}
+
+export function csvToArray(str, delimiter = ',') {
+  const headers = ['from', 'to', 'token', 'capacity'];
+  const rows = str.slice(str.indexOf('\n') + 1).split('\n');
+  const arr = rows.map(function (row) {
+    const values = row.split(delimiter);
+    const el = headers.reduce(function (object, header, index) {
+      object[header] = values[index];
+      return object;
+    }, {});
+    return el;
+  });
+  return arr;
 }

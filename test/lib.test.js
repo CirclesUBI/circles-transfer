@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import findTransitiveTransfer from '../src';
 
-import { expectSuccessfulTransfer } from './utils';
+import { expectSuccessfulTransfer, csvToArray } from './utils';
 
 const PATHFINDER_EXECUTABLE = './pathfinder';
 
@@ -46,7 +46,7 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 5,
+      transferStepsCount: 6,
       transferValue: '50',
     },
   },
@@ -59,7 +59,7 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '80',
-      transferStepsCount: 13,
+      transferStepsCount: 9,
       transferValue: '80',
     },
   },
@@ -68,12 +68,12 @@ const testVectorsSuccess = [
     transaction: {
       from: '0x2F764F3B669093dD24648757971070172Ca2af33',
       to: '0xA0FF2f1b0Ab2414E571bCD134781d746c750916B',
-      value: '50',
+      value: '44',
     },
     expected: {
-      maxFlowValue: '50',
+      maxFlowValue: '44',
       transferStepsCount: 4,
-      transferValue: '50',
+      transferValue: '44',
     },
   },
   {
@@ -84,15 +84,14 @@ const testVectorsSuccess = [
       value: '50',
     },
     expected: {
-      maxFlowValue: '50',
-      transferStepsCount: 2,
+      maxFlowValue: '0',
+      transferStepsCount: 0,
       transferValue: '50',
     },
   },
 ];
 
 const testVectors = [...testVectorsSuccess];
-
 describe('findTransitiveTransfer', () => {
   it('should run test vectors successfully', async () => {
     for await (const vector of testVectors) {
@@ -119,10 +118,11 @@ describe('findTransitiveTransfer', () => {
       expect(result.transferValue).toBe(expected.transferValue);
       expect(result.transferSteps.length).toBe(expected.transferStepsCount);
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
-
+      const str = require('fs').readFileSync(vector.graph, 'utf8');
+      const array = csvToArray(str);
       expectSuccessfulTransfer({
         ...result,
-        edges: require(vector.graph.replace('test/', '')),
+        edges: array,
       });
     }
   });
