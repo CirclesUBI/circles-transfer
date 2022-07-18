@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import findTransitiveTransfer from '../src';
 
 import { expectSuccessfulTransfer, csvToArray } from './utils';
