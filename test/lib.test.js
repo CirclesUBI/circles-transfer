@@ -84,8 +84,8 @@ const testVectorsSuccess = [
       value: '50',
     },
     expected: {
-      maxFlowValue: '0',
-      transferStepsCount: 0,
+      maxFlowValue: '50',
+      transferStepsCount: 2,
       transferValue: '50',
     },
   },
