@@ -46,20 +46,17 @@ export function expectSuccessfulTransfer({
     balances[stepFromIndex] -= parseFloat(transaction.value);
     balances[stepToIndex] += parseFloat(transaction.value);
 
-    edges.forEach((edge) => {
-      if (
+    const { capacity } = edges.find((edge) => {
+      return (
         edge.from === transaction.from &&
         edge.to === transaction.to &&
         edge.token === transaction.token
-      ) {
-        if (Number(edge.capacity) < Number(transaction.value)) {
-          console.log(edge.capacity);
-          console.log(transaction.value);
-
-          throw new Error('Transaction value is larger than edge capacity');
-        }
-      }
+      );
     });
+
+    if (Number(capacity) < Number(transaction.value)) {
+      throw new Error('Transaction value is larger than edge capacity');
+    }
 
     transferDebugSteps.push(
       [
@@ -95,7 +92,6 @@ export function expectSuccessfulTransfer({
 export function csvToArray(str, delimiter = ',') {
   const headers = ['from', 'to', 'token', 'capacity'];
   const rows = str
-    .slice(str.indexOf('\n') + 1)
     .split('\n')
     .filter((row) => row.length > 0);
   const arr = rows.map(function (row) {
