@@ -30,9 +30,8 @@
     "jest": "^26.6.0",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.32.1"
-  },
-  "dependencies": {
+    "rollup": "^2.32.1",
     "web3": "^1.7.4"
-  }
+  },
+  "dependencies": {}
 }
