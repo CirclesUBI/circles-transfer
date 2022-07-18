@@ -147,12 +147,11 @@ npm run lint
 npm run build
 ```
 
-`pathfinder` is a C++ program by [chriseth](https://github.com/chriseth/pathfinder) compiled for Linux arm64 in this repository. Compile it for your own platform with the following steps and move the target into your project:
+## Pathfinder
 
-```
-cmake .
-make
-```
+`pathfinder` is a C++ program by [chriseth](https://github.com/chriseth/pathfinder) compiled for Linux arm64 in this repository. To update the pathfinder in the api, build a native binary according to the README instructions from `chriseth` and move the target into your project.
+
+The version we are using corresponds with this commit: https://github.com/chriseth/pathfinder/commit/b443b34bd5e4ca266e825b2342534dcc211f5f86
 
 ## License
 
