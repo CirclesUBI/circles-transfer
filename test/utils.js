@@ -1,5 +1,3 @@
-import web3 from 'web3';
-
 function pad(str, len = 6) {
   return str.toString().padStart(len, ' ');
 }
@@ -54,7 +52,7 @@ export function expectSuccessfulTransfer({
         edge.to === transaction.to &&
         edge.token === transaction.token
       ) {
-        if (web3.utils.BN(edge.capacity).lt(web3.utils.BN(transaction.value))) {
+        if (Number(edge.capacity) < Number(transaction.value)) {
           console.log(edge.capacity);
           console.log(transaction.value);
 
