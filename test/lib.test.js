@@ -45,7 +45,7 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 6,
+      transferStepsCount: 5,
       transferValue: '50',
     },
   },
@@ -67,12 +67,12 @@ const testVectorsSuccess = [
     transaction: {
       from: '0x2F764F3B669093dD24648757971070172Ca2af33',
       to: '0xA0FF2f1b0Ab2414E571bCD134781d746c750916B',
-      value: '44',
+      value: '50',
     },
     expected: {
-      maxFlowValue: '44',
-      transferStepsCount: 4,
-      transferValue: '44',
+      maxFlowValue: '50',
+      transferStepsCount: 3,
+      transferValue: '50',
     },
   },
   {
