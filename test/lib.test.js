@@ -1,15 +1,14 @@
-import '@babel/polyfill';
 import findTransitiveTransfer from '../src';
 
-import { expectSuccessfulTransfer } from './utils';
+import { expectSuccessfulTransfer, csvToArray } from './utils';
 
 const PATHFINDER_EXECUTABLE = './pathfinder';
 
-const graph1 = './test/graph-1.json';
-const graph2 = './test/graph-2.json';
-const graph3 = './test/graph-3.json';
-const graph4 = './test/graph-4.json';
-
+const graph1 = './test/graph-1.csv';
+const graph2 = './test/graph-2.csv';
+const graph3 = './test/graph-3.csv';
+const graph4 = './test/graph-4.csv';
+const FLAG = '--flowcsv';
 const testVectorsSuccess = [
   {
     graph: graph1,
@@ -59,7 +58,7 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '80',
-      transferStepsCount: 13,
+      transferStepsCount: 9,
       transferValue: '80',
     },
   },
@@ -72,7 +71,7 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 4,
+      transferStepsCount: 3,
       transferValue: '50',
     },
   },
@@ -92,7 +91,6 @@ const testVectorsSuccess = [
 ];
 
 const testVectors = [...testVectorsSuccess];
-
 describe('findTransitiveTransfer', () => {
   it('should run test vectors successfully', async () => {
     for await (const vector of testVectors) {
@@ -100,6 +98,7 @@ describe('findTransitiveTransfer', () => {
         return await findTransitiveTransfer(vector.transaction, {
           edgesFile: vector.graph,
           pathfinderExecutable: PATHFINDER_EXECUTABLE,
+          flag: FLAG,
           timeout: 0,
         });
       };
@@ -118,10 +117,11 @@ describe('findTransitiveTransfer', () => {
       expect(result.transferValue).toBe(expected.transferValue);
       expect(result.transferSteps.length).toBe(expected.transferStepsCount);
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
-
+      const str = require('fs').readFileSync(vector.graph, 'utf8');
+      const array = csvToArray(str);
       expectSuccessfulTransfer({
         ...result,
-        edges: require(vector.graph.replace('test/', '')),
+        edges: array,
       });
     }
   });
