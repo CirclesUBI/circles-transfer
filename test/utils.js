@@ -91,9 +91,7 @@ export function expectSuccessfulTransfer({
 
 export function csvToArray(str, delimiter = ',') {
   const headers = ['from', 'to', 'token', 'capacity'];
-  const rows = str
-    .split('\n')
-    .filter((row) => row.length > 0);
+  const rows = str.split('\n').filter((row) => row.length > 0);
   const arr = rows.map(function (row) {
     const values = row.split(delimiter);
     const el = headers.reduce(function (object, header, index) {

@@ -61,7 +61,7 @@ export default function findTransitiveTransfer(
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    exec(args, { timeout: configuration.timeout }, (error, stdout, stderr) => {
+    exec(args, { timeout: configuration.timeout }, (error, stdout) => {
       if (error) {
         reject(new Error(`Process failed with ${args}`));
         return;
