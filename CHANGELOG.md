@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move CI from travis to github actions [#4](https://github.com/CirclesUBI/circles-transfer/pull/4)
 - Use node v14 in .nvmrc for GH Actions [#5](https://github.com/CirclesUBI/circles-transfer/pull/5)
 - Update README.md [#7](https://github.com/CirclesUBI/circles-transfer/pull/7)
-- Uptadete pathfinder and import edges from csv [#9](https://github.com/CirclesUBI/circles-transfer/pull/9)
+- Update pathfinder and import edges from csv [#9](https://github.com/CirclesUBI/circles-transfer/pull/9)
 
 ### Fixed
 
