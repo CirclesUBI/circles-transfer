@@ -76,7 +76,7 @@ export default function findTransitiveTransfer(
         from,
         to,
         maxFlowValue,
-        transferSteps: isPathGiven(value, maxFlowValue) ? transferSteps : [],
+        transferSteps,
         transferValue: value,
       });
     });

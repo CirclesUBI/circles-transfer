@@ -16,7 +16,7 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '11',
-      hops:'3',
+      hops:'4',
     },
     expected: {
       maxFlowValue: '11',
@@ -30,7 +30,7 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '100',
-      hops:'3',
+      hops:'5',
     },
     expected: {
       maxFlowValue: '11',
@@ -127,6 +127,7 @@ describe('findTransitiveTransfer', () => {
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
       const str = require('fs').readFileSync(vector.graph, 'utf8');
       const array = csvToArray(str);
+      console.log(array)
       expectSuccessfulTransfer({
         ...result,
         edges: array,
