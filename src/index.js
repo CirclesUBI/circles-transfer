@@ -21,7 +21,7 @@ function isPathGiven(a, b) {
 }
 
 export default function findTransitiveTransfer(
-  { from, to, value },
+  { from, to, value, hops },
   configuration,
 ) {
   // Validate arguments
@@ -30,11 +30,14 @@ export default function findTransitiveTransfer(
       from,
       to,
       value,
+      hops,
     },
     {
       from: 'string',
       to: 'string',
       value: 'string',
+      hops: 'string',
+      
     },
   );
 
@@ -48,7 +51,6 @@ export default function findTransitiveTransfer(
     edgesFile: 'string',
     pathfinderExecutable: 'string',
     flag: 'string',
-    timeout: 'number',
   });
 
   const args = [
@@ -56,18 +58,20 @@ export default function findTransitiveTransfer(
     configuration.flag,
     from,
     to,
-    value,
     configuration.edgesFile,
+    hops,
+    value,
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    exec(args, { timeout: configuration.timeout }, (error, stdout) => {
+    console.log(args)
+    exec(args, (error, stdout) => {
       if (error) {
         reject(new Error(`Process failed with ${args}`));
         return;
       }
-
-      const { maxFlowValue, transferSteps } = JSON.parse(stdout);
+      console.log(stdout.substring(stdout.indexOf('{')))
+      const { maxFlowValue, transferSteps } =JSON.parse(stdout.substring(stdout.indexOf('{')));
       resolve({
         from,
         to,
