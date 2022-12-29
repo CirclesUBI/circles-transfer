@@ -37,7 +37,6 @@ export default function findTransitiveTransfer(
       to: 'string',
       value: 'string',
       hops: 'string',
-      
     },
   );
 
@@ -64,19 +63,21 @@ export default function findTransitiveTransfer(
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    console.log(args)
+    console.log(args);
     exec(args, (error, stdout) => {
       if (error) {
         reject(new Error(`Process failed with ${args}`));
         return;
       }
-      console.log(stdout.substring(stdout.indexOf('{')))
-      const { maxFlowValue, transferSteps } =JSON.parse(stdout.substring(stdout.indexOf('{')));
+      console.log(stdout.substring(stdout.indexOf('{')));
+      const { maxFlowValue, transferSteps } = JSON.parse(
+        stdout.substring(stdout.indexOf('{')),
+      );
       resolve({
         from,
         to,
         maxFlowValue,
-        transferSteps,
+        transferSteps: isPathGiven(value, maxFlowValue) ? transferSteps : [],
         transferValue: value,
       });
     });

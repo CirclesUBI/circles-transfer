@@ -16,7 +16,7 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '11',
-      hops:'4',
+      hops: '4',
     },
     expected: {
       maxFlowValue: '11',
@@ -30,7 +30,7 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '100',
-      hops:'5',
+      hops: '5',
     },
     expected: {
       maxFlowValue: '11',
@@ -53,16 +53,17 @@ const testVectorsSuccess = [
     },
   },
   {
+    // take a look at this use case
     graph: graph2,
     transaction: {
       from: '0xe4Ec3cCfD5CdB641EC13305b6EF3536915a2688d',
       to: '0xd9E13Bb778B1d4DC87053f3912C597c64306a91E',
       value: '80',
-      hops: '3',
+      hops: '5',
     },
     expected: {
       maxFlowValue: '80',
-      transferStepsCount: 9,
+      transferStepsCount: 10,
       transferValue: '80',
     },
   },
@@ -86,7 +87,7 @@ const testVectorsSuccess = [
       from: '0xd615e7351261d1Bd8558742015AdFFFF15a425D7',
       to: '0x7875dFd647efA680B83e418Fc00B3E38B7442bc6',
       value: '50',
-      hops:'3',
+      hops: '3',
     },
     expected: {
       maxFlowValue: '50',
@@ -117,9 +118,9 @@ describe('findTransitiveTransfer', () => {
 
       const result = await test();
       const { expected, transaction } = vector;
-      console.log(result)
-      console.log(expected)
-      console.log(transaction)
+      console.log(result);
+      console.log(expected);
+      console.log(transaction);
       expect(result.from).toBe(transaction.from);
       expect(result.to).toBe(transaction.to);
       expect(result.transferValue).toBe(expected.transferValue);
@@ -127,11 +128,8 @@ describe('findTransitiveTransfer', () => {
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
       const str = require('fs').readFileSync(vector.graph, 'utf8');
       const array = csvToArray(str);
-      console.log(array)
-      expectSuccessfulTransfer({
-        ...result,
-        edges: array,
-      });
+      console.log(array);
+      expectSuccessfulTransfer({ ...result, edges: array });
     }
   });
 });
