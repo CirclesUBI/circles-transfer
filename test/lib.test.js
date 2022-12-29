@@ -118,9 +118,6 @@ describe('findTransitiveTransfer', () => {
 
       const result = await test();
       const { expected, transaction } = vector;
-      console.log(result);
-      console.log(expected);
-      console.log(transaction);
       expect(result.from).toBe(transaction.from);
       expect(result.to).toBe(transaction.to);
       expect(result.transferValue).toBe(expected.transferValue);
@@ -128,7 +125,6 @@ describe('findTransitiveTransfer', () => {
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
       const str = require('fs').readFileSync(vector.graph, 'utf8');
       const array = csvToArray(str);
-      console.log(array);
       expectSuccessfulTransfer({ ...result, edges: array });
     }
   });
