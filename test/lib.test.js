@@ -16,7 +16,7 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '11',
-      hops: '4',
+      hops: '3',
     },
     expected: {
       maxFlowValue: '11',
