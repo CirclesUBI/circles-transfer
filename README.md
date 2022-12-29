@@ -59,7 +59,7 @@ For performance reasons this module uses the native [pathfinder](https://github.
 
 ## Requirements
 
-- Node.js (tested with v12 and v14)
+- Node.js (tested v14)
 
 ## Installation
 
@@ -80,29 +80,12 @@ import findTransitiveTransfer from '@circles/transfer';
 // how much ("capacity") of what token ("token") can be sent from which node
 // ("from") to which ("to").
 //
-// Store this json file somewhere (for example ./graph.json):
+// The csv file has de format `from,to,token,capacity`. Store it somewhere (for example ./graph.csv):
 //
-// [
-//  {
-//    from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
-//    to: '0x83d878a6123efd548341b468f017af31d96b09b6',
-//    token: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
-//    capacity: '10'
-//  },
-//  {
-//    from: '0x83d878a6123efd548341b468f017af31d96b09b6',
-//    to: '0xe08fe38204075884b5dbdcb0ddca0e033f9481a7',
-//    token: '0x83d878a6123efd548341b468f017af31d96b09b6',
-//    capacity: '7'
-//  },
-//  {
-//    from: '0x83d878a6123efd548341b468f017af31d96b09b6',
-//    to: '0xe08fe38204075884b5dbdcb0ddca0e033f9481a7',
-//    token: '0xe08fe38204075884b5dbdcb0ddca0e033f9481a7',
-//    capacity: '5'
-//  },
-//  ...
-// ];
+// 0x5534d2ba89ad1c01c186efafee7105dba071134a,0x83d878a6123efd548341b468f017af31d96b09b6,0x5534d2ba89ad1c01c186efafee7105dba071134a,10
+// 0x83d878a6123efd548341b468f017af31d96b09b6,0xe08fe38204075884b5dbdcb0ddca0e033f9481a7,0x83d878a6123efd548341b468f017af31d96b09b6,7
+// 0x83d878a6123efd548341b468f017af31d96b09b6,0xe08fe38204075884b5dbdcb0ddca0e033f9481a7,0xe08fe38204075884b5dbdcb0ddca0e033f9481a7,5
+// ...
 
 // Find required transfer steps to send tokens transitively between two nodes:
 const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
@@ -112,7 +95,7 @@ const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
     value: '5',
   },
   {
-    edgesFile: './graph.json', // Path to graph file
+    edgesFile: './graph.csv', // Path to graph file
     pathfinderExecutable: './pathfinder', // Path to `pathfinder` program
     timeout: 1000 * 5, // Stop process when it takes longer than x milliseconds
   },
@@ -147,12 +130,11 @@ npm run lint
 npm run build
 ```
 
-`pathfinder` is a C++ program by [chriseth](https://github.com/chriseth/pathfinder) compiled for Linux arm64 in this repository. Compile it for your own platform with the following steps and move the target into your project:
+## Pathfinder
 
-```
-cmake .
-make
-```
+`pathfinder` is a C++ program by [chriseth](https://github.com/chriseth/pathfinder) compiled for Linux arm64 in this repository. To update the pathfinder in the api, build a native binary according to the README instructions from `chriseth` and move the target into your project.
+
+The version we are using corresponds with this commit: https://github.com/chriseth/pathfinder/commit/41f5eda7941e35dc67ebdb04a842eb7d65c810ef
 
 ## License
 

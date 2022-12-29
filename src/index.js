@@ -47,11 +47,13 @@ export default function findTransitiveTransfer(
   validateTypes(configuration, {
     edgesFile: 'string',
     pathfinderExecutable: 'string',
+    flag: 'string',
     timeout: 'number',
   });
 
   const args = [
     configuration.pathfinderExecutable,
+    configuration.flag,
     from,
     to,
     value,
@@ -59,14 +61,13 @@ export default function findTransitiveTransfer(
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    exec(args, { timeout: configuration.timeout }, (error, stdout, stderr) => {
-      if (error || stderr) {
+    exec(args, { timeout: configuration.timeout }, (error, stdout) => {
+      if (error) {
         reject(new Error(`Process failed with ${args}`));
         return;
       }
 
       const { maxFlowValue, transferSteps } = JSON.parse(stdout);
-
       resolve({
         from,
         to,
