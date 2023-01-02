@@ -106,6 +106,7 @@ describe('findTransitiveTransfer', () => {
           edgesFile: vector.graph,
           pathfinderExecutable: PATHFINDER_EXECUTABLE,
           flag: FLAG,
+          timeout: 0,
         });
       };
 
