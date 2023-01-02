@@ -8,7 +8,7 @@ const graph1 = './test/graph-1.csv';
 const graph2 = './test/graph-2.csv';
 const graph3 = './test/graph-3.csv';
 const graph4 = './test/graph-4.csv';
-const FLAG = '--flowcsv';
+const FLAG = '--csv';
 const testVectorsSuccess = [
   {
     graph: graph1,
@@ -16,10 +16,11 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '11',
+      hops: '3',
     },
     expected: {
       maxFlowValue: '11',
-      transferStepsCount: 6,
+      transferStepsCount: 5,
       transferValue: '11',
     },
   },
@@ -29,6 +30,7 @@ const testVectorsSuccess = [
       from: '0x5534D2ba89ad1C01C186eFAfEe7105DBa071134A',
       to: '0x29003579d2cA6d47C1860C4Ed36656542a28f012',
       value: '100',
+      hops: '5',
     },
     expected: {
       maxFlowValue: '11',
@@ -42,6 +44,7 @@ const testVectorsSuccess = [
       from: '0x12e3DB638ff9Ac639425F24fAd3193CB72b4e7fB',
       to: '0xa559aA8ed21434ebFa23958bC27D201391929219',
       value: '50',
+      hops: '3',
     },
     expected: {
       maxFlowValue: '50',
@@ -50,15 +53,17 @@ const testVectorsSuccess = [
     },
   },
   {
+    // take a look at this use case
     graph: graph2,
     transaction: {
       from: '0xe4Ec3cCfD5CdB641EC13305b6EF3536915a2688d',
       to: '0xd9E13Bb778B1d4DC87053f3912C597c64306a91E',
       value: '80',
+      hops: '5',
     },
     expected: {
       maxFlowValue: '80',
-      transferStepsCount: 9,
+      transferStepsCount: 10,
       transferValue: '80',
     },
   },
@@ -68,6 +73,7 @@ const testVectorsSuccess = [
       from: '0x2F764F3B669093dD24648757971070172Ca2af33',
       to: '0xA0FF2f1b0Ab2414E571bCD134781d746c750916B',
       value: '50',
+      hops: '3',
     },
     expected: {
       maxFlowValue: '50',
@@ -81,6 +87,7 @@ const testVectorsSuccess = [
       from: '0xd615e7351261d1Bd8558742015AdFFFF15a425D7',
       to: '0x7875dFd647efA680B83e418Fc00B3E38B7442bc6',
       value: '50',
+      hops: '3',
     },
     expected: {
       maxFlowValue: '50',
@@ -119,10 +126,7 @@ describe('findTransitiveTransfer', () => {
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
       const str = require('fs').readFileSync(vector.graph, 'utf8');
       const array = csvToArray(str);
-      expectSuccessfulTransfer({
-        ...result,
-        edges: array,
-      });
+      expectSuccessfulTransfer({ ...result, edges: array });
     }
   });
 });

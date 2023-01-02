@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { validateType, validateTypes } from './validate';
 
 // "100000000" > "200" returns false when comparing number strings but with
-// this workaround we're able to compare long numbers as strings:
+// this workaround we're able to compare long numbers as strings
 function isPathGiven(a, b) {
   // Which one is shorter?
   if (a.length < b.length) {
@@ -21,7 +21,7 @@ function isPathGiven(a, b) {
 }
 
 export default function findTransitiveTransfer(
-  { from, to, value },
+  { from, to, value, hops },
   configuration,
 ) {
   // Validate arguments
@@ -30,11 +30,13 @@ export default function findTransitiveTransfer(
       from,
       to,
       value,
+      hops,
     },
     {
       from: 'string',
       to: 'string',
       value: 'string',
+      hops: 'string',
     },
   );
 
@@ -56,8 +58,9 @@ export default function findTransitiveTransfer(
     configuration.flag,
     from,
     to,
-    value,
     configuration.edgesFile,
+    hops,
+    value,
   ].join(' ');
 
   return new Promise((resolve, reject) => {
@@ -66,8 +69,9 @@ export default function findTransitiveTransfer(
         reject(new Error(`Process failed with ${args}`));
         return;
       }
-
-      const { maxFlowValue, transferSteps } = JSON.parse(stdout);
+      const { maxFlowValue, transferSteps } = JSON.parse(
+        stdout.substring(stdout.indexOf('{')),
+      );
       resolve({
         from,
         to,

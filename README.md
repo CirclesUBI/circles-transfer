@@ -55,7 +55,7 @@
 
 Utility module for [Circles](https://joincircles.net) to find the [Maximum flow](https://en.wikipedia.org/wiki/Maximum_flow_problem) and necessary transitive transfer steps in a trust graph with multiple tokens.
 
-For performance reasons this module uses the native [pathfinder](https://github.com/chriseth/pathfinder/) process by [chriseth](https://github.com/chriseth) to find the transfer steps.
+For performance reasons this module uses the native [pathfinder](https://github.com/chriseth/pathfinder2/) process by [chriseth](https://github.com/chriseth) to find the transfer steps.
 
 ## Requirements
 
@@ -93,6 +93,7 @@ const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
     from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
     to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
     value: '5',
+    hops: '4'
   },
   {
     edgesFile: './graph.csv', // Path to graph file
@@ -132,9 +133,9 @@ npm run build
 
 ## Pathfinder
 
-`pathfinder` is a C++ program by [chriseth](https://github.com/chriseth/pathfinder) compiled for Linux arm64 in this repository. To update the pathfinder in the api, build a native binary according to the README instructions from `chriseth` and move the target into your project.
+`pathfinder` is a rust program by [chriseth](https://github.com/chriseth/pathfinder2) compiled for Linux arm64 in this repository. To update the pathfinder in the api, build a native binary according to the README instructions from `chriseth` and move the target into your project.
 
-The version we are using corresponds with this commit: https://github.com/chriseth/pathfinder/commit/41f5eda7941e35dc67ebdb04a842eb7d65c810ef
+The version we are using corresponds with this commit: https://github.com/chriseth/pathfinder2/commit/a677c3a9a0ea692abc69ef7095927af7e10da636
 
 ## License
 
