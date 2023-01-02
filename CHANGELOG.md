@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Replace [pathfinder](https://github.com/chriseth/pathfinder2/commit/a677c3a9a0ea692abc69ef7095927af7e10da636). This version is written in rust and with mulitple configuration parameteres such as hops. [#14](https://github.com/CirclesUBI/circles-transfer/pull/14) 
+- Replace the binary of the [pathfinder](https://github.com/chriseth/pathfinder) with the new version in [pathfinder2](https://github.com/chriseth/pathfinder2), which is written in rust and has new configuration parameters such as `hops`. [#14](https://github.com/CirclesUBI/circles-transfer/pull/14)
 
 ### Changed
 
