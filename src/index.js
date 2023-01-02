@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { validateType, validateTypes } from './validate';
 
 // "100000000" > "200" returns false when comparing number strings but with
-// this workaround we're able to compare long numbers as strings:
+// this workaround we're able to compare long numbers as strings
 function isPathGiven(a, b) {
   // Which one is shorter?
   if (a.length < b.length) {
