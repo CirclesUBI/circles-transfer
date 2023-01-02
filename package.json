@@ -4,7 +4,10 @@
   "description": "Find maximum flow and transitive transfer steps in a trust graph",
   "main": "lib/index.js",
   "contributors": [
-    "adzialocha"
+    "adzialocha",
+    "louilinn",
+    "llunaCreixent",
+    "JacqueGM"
   ],
   "license": "AGPL-3.0",
   "repository": {
