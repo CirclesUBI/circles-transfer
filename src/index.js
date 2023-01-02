@@ -50,6 +50,7 @@ export default function findTransitiveTransfer(
     edgesFile: 'string',
     pathfinderExecutable: 'string',
     flag: 'string',
+    timeout: 'number',
   });
 
   const args = [
@@ -63,7 +64,7 @@ export default function findTransitiveTransfer(
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    exec(args, (error, stdout) => {
+    exec(args, { timeout: configuration.timeout }, (error, stdout) => {
       if (error) {
         reject(new Error(`Process failed with ${args}`));
         return;
