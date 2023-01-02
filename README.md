@@ -93,6 +93,7 @@ const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
     from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
     to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
     value: '5',
+    hops: '4'
   },
   {
     edgesFile: './graph.csv', // Path to graph file
