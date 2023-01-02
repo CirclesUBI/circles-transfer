@@ -1,6 +1,6 @@
 {
   "name": "@circles/transfer",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Find maximum flow and transitive transfer steps in a trust graph",
   "main": "lib/index.js",
   "contributors": [
