@@ -2,7 +2,7 @@ import findTransitiveTransfer from '../src';
 
 import { expectSuccessfulTransfer, csvToArray } from './utils';
 
-const PATHFINDER_EXECUTABLE = './cli';
+const PATHFINDER_EXECUTABLE = './pathfinder';
 
 const graph1 = './test/graph-1.csv';
 const graph2 = './test/graph-2.csv';
