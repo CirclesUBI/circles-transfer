@@ -88,7 +88,12 @@ import findTransitiveTransfer from '@circles/transfer';
 // ...
 
 // Find required transfer steps to send tokens transitively between two nodes:
-const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
+const {
+  maxFlowValue,
+  numberOfSteps
+  transferSteps,
+  transferValue,
+} = await findTransitiveTransfer(
   {
     from: '0x5534d2ba89ad1c01c186efafee7105dba071134a',
     to: '0x29003579d2ca6d47c1860c4ed36656542a28f012',
@@ -102,14 +107,25 @@ const { transferSteps, maxFlowValue } = await findTransitiveTransfer(
   },
 );
 
-// ... we get the maximum possible value. If transfer value is smaller it will
-// be the same:
-console.log(`Can send max. ${maxFlowValue}`);
+// ... we are provided a transferValue:
+console.log(`Transfer value ${transferValue} will be equal to input value ${value}`);
 
-// ... and finally the transfer steps:
+// ... we get something called the maxFlowValue which is either the same as transferValue (same as input value) 
+// or maximum possible amount below value, if value is not possible.
+console.log(`Max flow value ${maxFlowValue} may be different from requested value ${transferValue}`);
+
+// If transfer value is smaller than actual maxFlow, maxFlow will be equal to value and not be an actual maximum.
+// ... and the transfer steps will be provided:
 transferSteps.forEach(({ step, from, to, value, token }) => {
   console.log(`${step}.: Send ${value} of ${token} from ${from} to ${to}`);
 });
+
+// Note that: transfer steps are not included when the requested value is larger than the possible amount (MaxFlow)
+// ... but we always get the number of steps required for the value in maxFlowValue.
+console.log(`Max flow transfer of ${maxFlowValue} requires ${numberOfSteps} transfer steps to be completed.`);
+
+// To request the theoretically maximum transferable amount use a unrealistically high value as input.
+// You know it is the maximum if maxFlowValue < transferValue and transferSteps is an empty list.
 ```
 
 ## Development

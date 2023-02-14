@@ -20,10 +20,12 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '11',
-      transferStepsCount: 5,
+      transferStepsArrayLength: 5,
+      numberOfSteps: 5,
       transferValue: '11',
     },
   },
+  // Maxflow test
   {
     graph: graph1,
     transaction: {
@@ -34,7 +36,8 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '11',
-      transferStepsCount: 0,
+      transferStepsArrayLength: 0,
+      numberOfSteps: 5,
       transferValue: '100',
     },
   },
@@ -48,7 +51,8 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 5,
+      transferStepsArrayLength: 5,
+      numberOfSteps: 5,
       transferValue: '50',
     },
   },
@@ -63,7 +67,8 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '80',
-      transferStepsCount: 10,
+      transferStepsArrayLength: 10,
+      numberOfSteps: 10,
       transferValue: '80',
     },
   },
@@ -77,7 +82,8 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 3,
+      transferStepsArrayLength: 3,
+      numberOfSteps: 3,
       transferValue: '50',
     },
   },
@@ -91,7 +97,8 @@ const testVectorsSuccess = [
     },
     expected: {
       maxFlowValue: '50',
-      transferStepsCount: 2,
+      transferStepsArrayLength: 2,
+      numberOfSteps: 2,
       transferValue: '50',
     },
   },
@@ -116,13 +123,17 @@ describe('findTransitiveTransfer', () => {
           expect(e).toMatch(new Error(vector.expected.error)),
         );
       }
-
       const result = await test();
+      console.log({result})
+
       const { expected, transaction } = vector;
+      console.log({expected})
+
       expect(result.from).toBe(transaction.from);
       expect(result.to).toBe(transaction.to);
       expect(result.transferValue).toBe(expected.transferValue);
-      expect(result.transferSteps.length).toBe(expected.transferStepsCount);
+      expect(result.numberOfSteps).toBe(expected.numberOfSteps);
+      expect(result.transferSteps.length).toBe(expected.transferStepsArrayLength);
       expect(result.maxFlowValue).toBe(expected.maxFlowValue);
       const str = require('fs').readFileSync(vector.graph, 'utf8');
       const array = csvToArray(str);
