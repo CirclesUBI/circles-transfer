@@ -10,15 +10,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Read node version from .nvmrc
-        id: nvmrc
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-
       - name: Setup node
         uses: actions/setup-node@v3
         with:
+          node-version-file: '.nvmrc'
           cache: 'npm'
-          node-version: '${{ steps.nvmrc.outputs.NODE_VERSION }}'
 
       - run: npm install
       - run: npm run test
